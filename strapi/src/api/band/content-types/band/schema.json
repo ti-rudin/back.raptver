@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bands",
+  "info": {
+    "singularName": "band",
+    "pluralName": "bands",
+    "displayName": "Band",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "band_name": {
+      "type": "string",
+      "unique": true
+    },
+    "spisok": {
+      "type": "dynamiczone",
+      "components": [
+        "pesni.track"
+      ]
+    },
+    "town": {
+      "type": "string",
+      "required": true
+    },
+    "small_text": {
+      "type": "string"
+    },
+    "big_text": {
+      "type": "richtext"
+    },
+    "group_link_vk": {
+      "type": "string"
+    },
+    "group_link_rocktver": {
+      "type": "string"
+    },
+    "time_on_scene": {
+      "type": "datetime"
+    },
+    "group_logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "mngr_id": {
+      "type": "string"
+    },
+    "artists": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::artist.artist",
+      "mappedBy": "bands"
+    },
+    "concerts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::concert.concert",
+      "mappedBy": "zhuri"
+    },
+    "lotereya": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::lotereya.lotereya"
+    }
+  }
+}

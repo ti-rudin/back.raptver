@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "concerts",
+  "info": {
+    "singularName": "concert",
+    "pluralName": "concerts",
+    "displayName": "Concert",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "show_name": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "datetime"
+    },
+    "spisok": {
+      "displayName": "timeline",
+      "type": "component",
+      "repeatable": true,
+      "component": "bands.timeline"
+    },
+    "ploschadka": {
+      "type": "string"
+    },
+    "bilet_ot": {
+      "type": "string"
+    },
+    "url_website": {
+      "type": "string",
+      "default": "#"
+    },
+    "zhuri": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::band.band",
+      "inversedBy": "concerts"
+    }
+  }
+}

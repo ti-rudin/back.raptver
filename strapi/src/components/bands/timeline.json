@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_bands_timelines",
+  "info": {
+    "displayName": "timeline",
+    "icon": "align-left",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "band": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::band.band"
+    },
+    "tech_pause": {
+      "type": "boolean",
+      "default": false
+    },
+    "slovo_vedusch": {
+      "type": "boolean",
+      "default": false
+    },
+    "open_speache": {
+      "type": "boolean",
+      "default": false
+    },
+    "finish_speache": {
+      "type": "boolean",
+      "default": false
+    },
+    "start_time": {
+      "type": "time",
+      "required": true,
+      "default": "10:01"
+    },
+    "title": {
+      "type": "string"
+    }
+  }
+}

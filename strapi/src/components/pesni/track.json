@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_pesni_tracks",
+  "info": {
+    "displayName": "track",
+    "icon": "arrow-circle-right",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "richtext",
+      "default": "(с)"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "music_rights": {
+      "type": "string",
+      "default": "-"
+    },
+    "words_rights": {
+      "type": "string",
+      "default": "-"
+    },
+    "year_born": {
+      "type": "biginteger",
+      "default": "2022"
+    },
+    "is_premiere": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
