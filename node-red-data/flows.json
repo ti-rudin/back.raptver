@@ -5129,6 +5129,7 @@
         "name": "",
         "func": "const getvolfromredis = global.get('getvol'); //(id)\nlet name = \"log:likes:*\";\nlet res = getvolfromredis(name);\n\nmsg.payload = res;\n\n\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",

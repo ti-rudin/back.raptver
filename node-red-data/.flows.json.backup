@@ -125,7 +125,9 @@
             "0af8d15feeb9ee9a"
         ],
         "x": 774,
-        "y": 1019
+        "y": 1019,
+        "w": 1552,
+        "h": 122
     },
     {
         "id": "de2918815c34c8e3",
@@ -5127,6 +5129,7 @@
         "name": "",
         "func": "const getvolfromredis = global.get('getvol'); //(id)\nlet name = \"log:likes:*\";\nlet res = getvolfromredis(name);\n\nmsg.payload = res;\n\n\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -5692,6 +5695,7 @@
         "name": "log prepare",
         "func": "let timestamp = Date.now()\nconst setvoltoredis = global.get('setvol');\n\nlet logdata = {\n    topic:\"\",\n    payload: {\n        timestamp: timestamp,\n        event_type: \"lotereya-register\",\n        loterid: msg.req.query.loterid,\n        user: msg.payload.user,\n\n    }\n\n\n}\n\nlet users = [];\nusers.push(msg.payload.user);\n\nnode.warn(users)\nsetvoltoredis('loter:'+msg.req.query.loterid, users)\nreturn [msg, logdata];",
         "outputs": 2,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -6026,6 +6030,7 @@
         "name": "",
         "func": "\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",

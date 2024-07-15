@@ -1,0 +1,134 @@
+version: '3.7'
+services:
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=ax.rudin@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--serverstransport.insecureskipverify=true"
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+    restart: always
+    networks:
+      - raptver-network
+#strapi run on pm2!!!
+  #strapi:
+  #  build:
+  #    context: ./strapi
+  #    dockerfile:  strapi.Dockerfile
+  #  container_name: strapi
+  #  environment:
+  #    NODE_ENV: ${NODE_ENV:-development}
+  #  image: strapi/strapi
+  #  ports:
+  #    - "1337:1337"
+  #  volumes:
+  #    - ./strapi:/app/strapi
+  #  restart: always
+  #  networks:
+  #  - raptver-network
+  #  #command: strapi develop
+  #  labels:
+  #    - "traefik.enable=true"
+  #    - "traefik.http.routers.strapi.rule=Host(`admin.raptver.ru`)"
+  #    - "traefik.http.routers.strapi.entrypoints=websecure"
+  #    - "traefik.http.routers.strapi.tls.certresolver=myresolver"
+  #    - "traefik.http.services.strapi.loadBalancer.server.port=1337"
+#
+
+
+  #frontend:
+  #  container_name: svelte
+  #  build:
+  #    context: ./frontend
+  #    dockerfile: ./Dockerfile
+  #  ports:
+  #    - "3000:3000"
+    #depends_on:
+    #  - backend
+
+  #ghost:
+  #  image: ghost:latest
+  #  restart: always
+  #  ports:
+  #    - "2368:2368"
+  #  volumes:
+  #  #  - ./data-ghost-content/config.production.json:/var/lib/ghost/config.production.json:z #overwrite default settings 
+  #    - ./data-ghost-content:/var/lib/ghost/content
+  #  networks:
+  #  - raptver-network
+
+  node-red:
+    container_name: node-red
+    build:
+      context: .
+      dockerfile: ./nodered2.Dockerfile
+    #env_file: .env
+    ports:
+      - "1880:1880"
+    networks:
+      - raptver-network
+    depends_on:
+      - redis
+    volumes:
+      - ./node-red-data:/data 
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.node-red.rule=Host(`api.raptver.ru`)"
+      - "traefik.http.routers.node-red.entrypoints=websecure"
+      - "traefik.http.routers.node-red.tls.certresolver=myresolver"
+      - "traefik.http.services.node-red.loadBalancer.server.port=1880"
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    command: redis-server --requirepass YzRAdGgkFg
+    ports:
+     - "6379:6379"
+    environment:
+         - REDIS_REPLICATION_MODE=master
+    volumes:
+      - ./redis-data:/data
+    restart: always
+    networks:
+      - raptver-network
+
+  #redis-commander:
+  #  container_name: redis-commander
+  #  hostname: redis-commander
+  #  image: ghcr.io/joeferner/redis-commander:latest
+  #  restart: always
+  #  environment:
+  #  - REDIS_HOSTS=local:localhost:6379
+  #  ports:
+  #  - "8081:8081"
+  #  networks:
+  #  - raptver-network
+
+volumes:
+  node-red-data:
+  data-ghost-content:
+
+networks:
+  raptver-network:
+    driver: bridge
